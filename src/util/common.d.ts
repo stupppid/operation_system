@@ -1,0 +1,1 @@
+export declare function validatenull(param: any):boolean

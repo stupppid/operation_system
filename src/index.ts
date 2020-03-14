@@ -1,3 +1,0 @@
-class QQQ {
-    name: 'qqq'
-}

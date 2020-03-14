@@ -1,7 +1,5 @@
-import { validatenull } from '@/util/validate'
-import website from '@/config/website'
-
-const keyName = website.key + '-'
+import { validatenull } from './common'
+const keyName = 'rt_'
 /**
  * 存储localStorage
  */
