@@ -1,10 +1,9 @@
 import {FileController} from "../../controller";
-import StateController from "../../controller/StateController";
 import AccountController from "../../controller/AccountController";
 
 export interface IStore {
     fileController: FileController
-    stateController: StateController
+    state: any
     accountController: AccountController
 }
 

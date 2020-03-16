@@ -25,6 +25,8 @@
   "homepage": "https://github.com/stupppid/ratta#readme",
   "dependencies": {
     "dexie": "^2.0.4",
+    "dexie-observable": "^1.0.0-beta.6",
+    "md5": "^2.2.1",
     "mobx": "^5.15.4",
     "reflect-metadata": "^0.1.13",
     "ts-keycode-enum": "^1.0.6"

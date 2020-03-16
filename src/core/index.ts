@@ -1,6 +1,6 @@
 import {getStore} from "../util/store";
 import {FileController} from "./controller";
-import StateController from "./controller/StateController";
+import state from './controller/state';
 import AccountController from "./controller/AccountController";
 
 interface IRender {
@@ -14,7 +14,7 @@ interface IConfig {
 
 export interface IStore {
     fileController: FileController
-    stateController: StateController
+    state: any
     accountController: AccountController
 }
 
@@ -52,8 +52,8 @@ export async function init(): Promise<void> {
         getRender(config).then(renderer => {
             renderer.run({
                 fileController: new FileController(),
-                stateController: new StateController(),
-                accountController: new AccountController()
+                accountController: new AccountController(),
+                state: state,
             }, document.getElementById('root'))
         })
     })

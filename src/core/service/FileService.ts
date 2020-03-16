@@ -1,22 +1,18 @@
-import {FileRepository} from "../dao/FileRepository";
 import {RtFile, RT_FILE_TYPE} from "../model/File";
 import {instance} from "../annotation";
 import Dexie from "dexie";
+import { RtDB } from "./RtDB";
 
 @instance
 export default class FileService {
-    fileRepository:FileRepository = new FileRepository()
+    protected files = new RtDB().files
 
     addFile(file: RtFile) {
-        return this.fileRepository.addFile(file)
+        return this.files.add(file)
     }
 
-    appendFile(name: string, parentId: number, type: RT_FILE_TYPE) {
-        return this.fileRepository.addFile(new RtFile({
-            name: name,
-            parentId: parentId,
-            type: type
-        }))
+    bulkAddFile(files: Array<RtFile>) {
+        return this.files.bulkAdd(files)
     }
 
     getFileByPath(path: string):RtFile {
@@ -33,8 +29,8 @@ export default class FileService {
     }
 
 
-    getRootFile():Dexie.Promise<Array<RtFile>> {
-        return this.fileRepository.findFile({
+    getRootFile():Dexie.Collection<RtFile, number> {
+        return this.files.where({
             parentId: 0
         })
     }

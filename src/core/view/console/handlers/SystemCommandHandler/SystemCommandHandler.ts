@@ -23,13 +23,15 @@ export default class SystemCommandHandler extends CommandHandler{
     }
 
     protected get prefix() {
-        return '\n' + this.store.stateController.getState('account name', true) + '@' +
-            this.store.stateController.getState('device name', true) + ': '
+        return '\n' + this.store.state.getItem('account.name') + '@' +
+            this.store.state.getItem('device.name') + ': '
     }
 
     executeCommandHandler(command) {
         Command.run(command).then((obj) => {
-            this.print(obj.msg)
+            if(obj.msg) {
+                this.print('\n' + obj.msg)
+            }
             this.print(this.prefix)
         })
     }

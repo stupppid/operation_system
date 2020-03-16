@@ -80,6 +80,6 @@ export function *initSystemStep(store:IStore, stepHandler: StepHandler) {
     while (step.length > 0) {
         yield step.shift()
     }
-    initSystem(initObject, stepHandler.store)
+    initSystem(initObject)
 }
 

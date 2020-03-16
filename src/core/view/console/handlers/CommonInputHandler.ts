@@ -10,6 +10,12 @@ export interface IInputHandler {
     init():void
 }
 
+enum REPLACE_STDOUT_TYPE {
+    WORD,
+    LINE,
+    PAGE,
+}
+
 /**
  * 一个session只有一个stdin
  */
@@ -38,5 +44,20 @@ export class CommonInputHandler implements IInputHandler{
             top: this.inputEl.scrollHeight
         })
         this.inputProxy.stdout = ''
+    }
+
+    replaceStdout(content: string, type: number = 0, length: number = 1): void {
+        switch (type) {
+            case REPLACE_STDOUT_TYPE.WORD:
+                this.inputEl.value = this.inputEl.value.slice(0, this.inputEl.value.length - length) + content
+                break
+            case REPLACE_STDOUT_TYPE.LINE:
+                break
+            case REPLACE_STDOUT_TYPE.PAGE:
+                break
+            default:
+                break
+        }
+
     }
 }

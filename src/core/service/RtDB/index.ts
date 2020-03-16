@@ -1,8 +1,9 @@
 import Dexie from "dexie";
-import {RtFile} from '../model/File';
-import DBVersions from '../../config/DBVersions'
-import {instance} from "../annotation";
-import {RtAccount} from "../model/Account";
+import {RtFile} from '../../model/File';
+import DBVersions from '../../../config/DBVersions'
+import {instance} from "../../annotation";
+import {RtAccount} from "../../model/Account";
+import 'dexie-observable';
 
 /**
  * files等数据声明存在 /src/config/DBVersions.js 中，需要加个单元测试防止对不上
