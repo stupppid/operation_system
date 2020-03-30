@@ -19,3 +19,19 @@ export function instance<T extends {new(...args:any[]):{}}>(constructor:T) {
         }
     }
 }
+
+/**
+ * 混入
+ * @param constructor
+ */
+export function mixin(obj: Object) {
+    return function (target) {
+        return Object.assign(target, obj)
+    }
+}
+
+export function functionWrap(obj: Object) {
+    return function (target) {
+        return Object.assign(target, obj)
+    }
+}

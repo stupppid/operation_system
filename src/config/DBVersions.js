@@ -1,6 +1,7 @@
 export default [
     {
-        files: "$$id,&absolutePath,&url,level,permission,createTime,updateTime,type,isDeleted,shareLink,content",
-        accounts: "$$id,type,name,password,info,setting",
+        files: "$$id,&absolutePath,level,linkPath,permission,createTime,createBy,updateTime,updateBy,type,isDeleted,shareLink,content,permissionAccounts,owner,group",
+        accounts: "$$id,type,name,password,info,setting,group",
+        states: "$$id,[name+accountId],setting"
     },
 ]

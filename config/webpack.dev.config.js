@@ -5,13 +5,16 @@ const TypedocWebpackPlugin = require('typedoc-webpack-plugin')
 module.exports = {
     mode: 'production',
     context: path.resolve(__dirname, '../'),
-    entry: './src/index.js',
+    entry: { index: './src/index.js', console: './src/core/view/console/index.js'},
     output: {
         path: path.resolve(__dirname, '../dist'),
-        filename: "index.js"
+        filename: "[name].js",
     },
     resolve: {
-        extensions: ['.ts', '.js']
+        extensions: ['.ts', '.js'],
+        alias: {
+            '@': path.resolve(__dirname, '../src')
+        }
     },
     module: {
         rules: [
@@ -37,6 +40,11 @@ module.exports = {
                             ],
                             [
                                 "@babel/plugin-proposal-class-properties"
+                            ],
+                            ["@babel/plugin-transform-runtime",
+                                {
+                                    "regenerator": true
+                                }
                             ]
                         ],
                     }
@@ -50,7 +58,7 @@ module.exports = {
                 ],
             },
             {
-                test: /\.template\.xhtml$/,
+                test: [/\.template\.xhtml$/, /\.rtjs$/],
                 use: 'raw-loader'
             },
         ]
@@ -68,5 +76,5 @@ module.exports = {
     devServer: {
         port: 9001
     },
-    devtool: "source-map",
+    devtool: "cheap-module-eval-source-map",
 }

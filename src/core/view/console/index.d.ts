@@ -1,5 +1,5 @@
 import {FileController} from "../../controller";
-import AccountController from "../../controller/AccountController";
+import {AccountController} from "../../controller";
 
 export interface IStore {
     fileController: FileController
@@ -8,7 +8,7 @@ export interface IStore {
 }
 
 interface IView {
-    run: (store:IStore, root:HTMLElement)=>void
+    run: (store:IStore, root:HTMLElement, init: any)=>void
 }
 
 export declare const console:IView

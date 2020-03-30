@@ -8,6 +8,13 @@ export function *loginSteps(store:IStore) {
     let step:IStep[]
     let wrongPasswordTime = 0
     let failed = false
+    let loginObj: {
+        name: string,
+        password: string
+    } = {
+        name: '',
+        password: '',
+    }
     let startSteps = [
         {
             tip: () => {
@@ -18,9 +25,9 @@ export function *loginSteps(store:IStore) {
                     return '\nlogin: '
                 }
             },
-            answer: function (answer:string):boolean {
+            answer: async function (answer:string):Promise<boolean> {
                 if(answer.trim() !== '') {
-                    console.log('step2')
+                    loginObj.name = answer
                 } else {
                     failed = true
                 }
@@ -29,13 +36,16 @@ export function *loginSteps(store:IStore) {
         },
         {
             tip: "\npassword: ",
-            answer: function (answer:string):boolean {
-                if(answer.trim() !== '') {
-                    console.log('step2')
-                } else {
-                    step.push(...startSteps)
-                }
-                return true
+            answer: function (answer:string):Promise<void> {
+                loginObj.password = answer.trim()
+                return store.accountController.login(loginObj.name, loginObj.password).then(r => {
+                    if(r === undefined) {
+                        failed = true
+                        step.push(...startSteps)
+                    } else {
+                        store.state.setItem('$CURRENT_ACCOUNT',r, 1)
+                    }
+                })
             }
         }
     ]

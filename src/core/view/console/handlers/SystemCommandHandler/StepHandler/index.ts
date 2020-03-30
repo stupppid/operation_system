@@ -1,7 +1,7 @@
-import {InputProxy} from "../InputProxy";
-import {IStore} from "../../index";
-import CommandHandler from "./CommandHandler";
-import {CommonInputHandler} from "../CommonInputHandler";
+import {InputProxy} from "../../InputProxy";
+import {IStore} from "../../../index";
+import CommandHandler from "../CommandHandler/CommandHandler";
+import {CommonInputHandler} from "../../CommonInputHandler";
 
 export interface IStep {
     tip: (()=>string) | string
@@ -48,13 +48,19 @@ export default class StepHandler extends CommandHandler{
                 this.inputProxy.popHandler()
             }
         } else {
-            this.lastStep.value.answer(command.trim())
-            this.lastStep = this.steps.next(command.trim())
-            if(this.lastStep.done) {
-                this.nextStep(null)
-            } else {
-                this.printTip(this.lastStep.value.tip)
-            }
+            this.lastStep.value.answer(command.trim()).then((r) => {
+                    this.lastStep = this.steps.next(command.trim())
+                    if (this.lastStep.done) {
+                        this.nextStep(null)
+                    } else {
+                        if (this.lastStep.value.tip instanceof Function) {
+                            this.printTip(this.lastStep.value.tip())
+                        } else {
+                            this.printTip(this.lastStep.value.tip)
+                        }
+                    }
+                }
+            )
         }
     }
 }

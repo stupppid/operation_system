@@ -1,9 +1,10 @@
-import Dexie from "dexie";
 import {RtFile} from '../../model/File';
 import DBVersions from '../../../config/DBVersions'
 import {instance} from "../../annotation";
 import {RtAccount} from "../../model/Account";
 import 'dexie-observable';
+import {RtState} from "../../model/State";
+import Dexie from "dexie";
 
 /**
  * files等数据声明存在 /src/config/DBVersions.js 中，需要加个单元测试防止对不上
@@ -12,9 +13,13 @@ import 'dexie-observable';
 export class RtDB extends Dexie{
     files: Dexie.Table<RtFile, number>
     accounts: Dexie.Table<RtAccount, number>
+    states: Dexie.Table<RtState, number>
 
     constructor() {
         super("RtDB");
+        if(this.states === undefined) {
+            this.init()
+        }
     }
 
     init() {
@@ -23,11 +28,6 @@ export class RtDB extends Dexie{
         }
         this.files.mapToClass (RtFile);
         this.accounts.mapToClass (RtAccount);
+        this.states.mapToClass (RtState);
     }
 }
-
-export interface ISearchObject {
-    [prop:string]:any
-}
-
-new RtDB().init()

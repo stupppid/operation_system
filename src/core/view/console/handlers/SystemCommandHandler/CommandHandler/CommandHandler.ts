@@ -1,7 +1,7 @@
-import {CommonInputHandler} from "../CommonInputHandler";
-import {InputProxy} from "../InputProxy";
-import {IStore} from "../../index";
-import {autorun} from "mobx";
+import {CommonInputHandler} from "../../CommonInputHandler";
+import {InputProxy} from "../../InputProxy";
+import {IStore} from "../../../index";
+import {Command} from "./Command";
 
 
 /**
@@ -13,20 +13,15 @@ export default class CommandHandler extends CommonInputHandler{
     store:IStore  // 文件 文件内容 账户 环境变量 cs 的数据
     inputEl:HTMLTextAreaElement
 
-    protected stdinSeek:number = 0
-    protected stdinLength: number = 0
+    private stdinSeek:number = 0
+    private stdinLength: number = 0
+    private historySeek: number = 0
+    history:Array<string> = []
     protected commandHandler:Function = function(){}
 
     constructor(store:IStore, inputEl:HTMLTextAreaElement, inputProxy: InputProxy, commandHandler?:Function) {
         super(store, inputEl, inputProxy)
         this.commandHandler = commandHandler
-        this.setAutoRuns()
-    }
-
-    protected setAutoRuns() {
-        autorun(() => {
-            this.print(this.inputProxy.stdout)
-        })
     }
 
     protected get stdin() {
@@ -34,6 +29,25 @@ export default class CommandHandler extends CommonInputHandler{
             return ''
         }
         return this.inputEl.value.substr(-this.stdinLength)
+    }
+    private changeCommandInHistory() {
+        const command = this.history[this.history.length - 1 - this.historySeek]
+        this.inputEl.value = this.inputEl.value.slice(0, this.inputEl.value.length - this.stdinLength) + command
+        this.stdinLength = command.length
+        this.stdinSeek = 0
+    }
+
+    private dispatchKeyEvent(key, type:string = 'keydown'){
+        let event = new KeyboardEvent(type,{
+            key: key,
+            // code: key,
+            composed: true,
+            cancelable: true,
+            bubbles: true,
+        })
+        // @ts-ignore
+        event['keyCode'] = 37
+        this.inputEl.dispatchEvent(event)
     }
 
     handleKeyDown(e: KeyboardEvent): void {
@@ -45,20 +59,37 @@ export default class CommandHandler extends CommonInputHandler{
                     this.commandHandler(this.stdin)
                     this.stdinLength = 0
                     this.stdinSeek = 0
+                    this.historySeek = -1
                     break
                 case 'Tab':
                     e.preventDefault()
+                    // Command.run(this)('ls').then(r => {
+                    //     let tips = []
+                    //     r.msg.split(' ').forEach(subVal => {
+                    //         if(subVal.startsWith(this.stdin)) {
+                    //             tips.push(subVal)
+                    //         }
+                    //     })
+                    //     tips = tips.sort((a,b) => b.length - a.length)
+                    //     this.dispatchKeyEvent('Enter')
+                    // })
                     // todo 智能提示
                     break
                 case "Down": // IE/Edge specific value
                 case "ArrowDown":
                     e.preventDefault()
-                    // todo history下一条数据
+                    if(this.historySeek > 0) {
+                        --this.historySeek
+                        this.changeCommandInHistory()
+                    }
                     break;
                 case "Up": // IE/Edge specific value
                 case "ArrowUp":
                     e.preventDefault()
-                    // todo history上一条数据
+                    if(this.historySeek < this.history.length - 1) {
+                        ++this.historySeek
+                        this.changeCommandInHistory()
+                    }
                     break;
                 case "Left": // IE/Edge specific value
                 case "ArrowLeft":
@@ -75,11 +106,18 @@ export default class CommandHandler extends CommonInputHandler{
                     }
                     break;
                 case "Backspace":
-                    if(this.stdinSeek >= this.stdinLength) {
+                    if(this.stdinSeek >= this.stdinLength || e.ctrlKey) {
                         e.preventDefault()
                     } else {
                         this.stdinLength--
                     }
+                    break
+                case "Home":
+                    // 手动触发事件不会生成与该事件关联的默认操作，尽量不用hack方法实现
+                    e.preventDefault()
+                    break
+                case "End":
+                    e.preventDefault()
                     break
                 default:
                     e.preventDefault()
@@ -88,5 +126,11 @@ export default class CommandHandler extends CommonInputHandler{
         } else {
             this.stdinLength++
         }
+    }
+
+    handleMouseDown(e: MouseEvent): void {
+        super.handleMouseDown(e);
+        this.inputEl.focus()
+        e.preventDefault()
     }
 }

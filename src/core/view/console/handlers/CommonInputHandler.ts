@@ -6,6 +6,12 @@ export interface IInputHandler {
     handleKeyDown(e:KeyboardEvent):void
     handleInput(e:InputEvent):void
     handleKeyPress(e:KeyboardEvent):void
+    handleClick(e: MouseEvent): void
+    handleMouseUp(e: MouseEvent): void
+    handleMouseDown(e: MouseEvent): void
+    handleStdoutChange(value:String, oldValue:String): void
+    handleStdinChange(value:String, oldValue:String): void
+    handleStderrChange(value:String, oldValue:String): void
     destroy():void
     init():void
 }
@@ -36,17 +42,22 @@ export class CommonInputHandler implements IInputHandler{
     handleKeyUp(e: KeyboardEvent): void {}
     handleInput(e: InputEvent): void {}
     handleKeyPress(e: KeyboardEvent): void {}
+    handleClick(e: MouseEvent): void {}
+    handleMouseUp(e: MouseEvent): void {}
+    handleMouseDown(e: MouseEvent): void {}
+    handleStdoutChange(value:string, oldValue:string): void {}
+    handleStdinChange(value:string, oldValue:string): void {}
+    handleStderrChange(value:string, oldValue:string): void {}
 
     print(content: string): void {
-        this.inputProxy.stdout = content
-        this.inputEl.value += this.inputProxy.stdout
+        // this.inputProxy.stdout = content
+        this.inputEl.value += content
         this.inputEl.scrollTo({
             top: this.inputEl.scrollHeight
         })
-        this.inputProxy.stdout = ''
     }
 
-    replaceStdout(content: string, type: number = 0, length: number = 1): void {
+    replace(content: string, type: number = 0, length: number = 1): void {
         switch (type) {
             case REPLACE_STDOUT_TYPE.WORD:
                 this.inputEl.value = this.inputEl.value.slice(0, this.inputEl.value.length - length) + content

@@ -1,7 +1,7 @@
 import {getStore} from "../util/store";
 import {FileController} from "./controller";
 import state from './controller/state';
-import AccountController from "./controller/AccountController";
+import {AccountController} from "./controller";
 
 interface IRender {
     mode: string
@@ -49,8 +49,8 @@ export async function init(): Promise<void> {
         root.id = 'root'
         document.body.appendChild(root)
         // 这里把接口全部传入render渲染
-        getRender(config).then(renderer => {
-            renderer.run({
+        getRender(config).then(async renderer => {
+            await renderer.run({
                 fileController: new FileController(),
                 accountController: new AccountController(),
                 state: state,

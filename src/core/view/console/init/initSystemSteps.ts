@@ -13,7 +13,8 @@ export function *initSystemStep(store:IStore, stepHandler: StepHandler) {
             password: ''
         },
         device: {
-            name: ''
+            name: '',
+            render: 'consoleView'
         },
         init: false
     }
@@ -22,7 +23,7 @@ export function *initSystemStep(store:IStore, stepHandler: StepHandler) {
     const passwordExp = /^[a-zA-Z0-9_]{6,32}$/
     const passwordStep = {
         tip: () => `\n${wrongPassword ? 'Your password: Must be between 6 and 32 characters long, combined by letters, numbers or underscore\n' : ''}what's your admin's password?    `,
-        answer: function (answer:string) {
+        answer: async function (answer:string) {
             if(!passwordExp.test(answer)) {
                 wrongPassword = true
                 step.unshift(passwordStep)
@@ -36,7 +37,7 @@ export function *initSystemStep(store:IStore, stepHandler: StepHandler) {
     const nameExp = /^[a-zA-Z0-9_]{4,16}$/
     const adminNameStep = {
         tip: () => `\n${wrongAdminName ? 'Your admin\'s name: Must be between 4 and 16 characters long, combined by letters, numbers or underscore\n' : ''}what's your admin's name?(root)    `,
-        answer: function (answer:string) {
+        answer: async function (answer:string) {
             if(!nameExp.test(answer) && answer.length > 0) {
                 wrongAdminName = true
                 step.unshift(adminNameStep)
@@ -49,7 +50,7 @@ export function *initSystemStep(store:IStore, stepHandler: StepHandler) {
     let wrongPCName:boolean = false
     const pcNameStep = {
         tip: () =>`\n${wrongPCName ? "Your pc's name: Must be between 4 and 16 characters long, combined by letters, numbers or underscore\n" : ''}what's your computer's name?(ratta)    `,
-        answer: function (answer:string) {
+        answer: async function (answer:string) {
             if(!nameExp.test(answer) && answer.length > 0) {
                 wrongPCName = true
                 step.unshift(pcNameStep)
@@ -61,7 +62,7 @@ export function *initSystemStep(store:IStore, stepHandler: StepHandler) {
     let step:IStep[] = [
         {
             tip: "it's the first time to run ratta, it will use some space of your disk, continue?(y)    ",
-            answer: function (answer:string) {
+            answer: async function (answer:string) {
                 if(answer.toLowerCase().startsWith('y') || answer.length < 1) {
                     initObject.init = true
                 } else {
