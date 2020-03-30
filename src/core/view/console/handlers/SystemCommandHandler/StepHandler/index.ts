@@ -41,17 +41,15 @@ export default class StepHandler extends CommandHandler{
     }
 
     nextStep(command:string | null) {
-        if(this.lastStep.done) {
-            if(this.nextHandler !== null) {
-                this.inputProxy.replaceHandler(this.nextHandler)
-            } else {
-                this.inputProxy.popHandler()
-            }
-        } else {
+        if(!this.lastStep.done) {
             this.lastStep.value.answer(command.trim()).then((r) => {
                     this.lastStep = this.steps.next(command.trim())
                     if (this.lastStep.done) {
-                        this.nextStep(null)
+                        if(this.nextHandler !== null) {
+                            this.inputProxy.replaceHandler(this.nextHandler)
+                        } else {
+                            this.inputProxy.popHandler()
+                        }
                     } else {
                         if (this.lastStep.value.tip instanceof Function) {
                             this.printTip(this.lastStep.value.tip())

@@ -39,8 +39,8 @@ class VimHandler extends CommonInputHandler {
         this.inputEl.value = this.lastHandlerInput
         this.inputEl.parentElement.removeChild(this.escapingEl)
         this.inputEl.parentElement.removeChild(this.errEl)
-        this.errEl = null
-        this.escapingEl = null
+        // this.errEl = null
+        // this.escapingEl = null
         this.inputEl.focus()
     }
 

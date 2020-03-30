@@ -29,6 +29,7 @@ export function *initSystemStep(store:IStore, stepHandler: StepHandler) {
                 step.unshift(passwordStep)
             } else {
                 initObject.root.password = answer
+                await initSystem(initObject)
             }
         }
     }
@@ -81,6 +82,5 @@ export function *initSystemStep(store:IStore, stepHandler: StepHandler) {
     while (step.length > 0) {
         yield step.shift()
     }
-    initSystem(initObject)
 }
 

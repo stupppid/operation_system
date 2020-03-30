@@ -54,7 +54,6 @@ async function initSystem(initObject: IInitSystemObject) {
                 })]).then()
             })
         }).then(r => {
-            state.setItem('device.name', initObject.device.name)
             state.setItem('account.currentPath', `/home/${initObject.root.name}`)
         }).catch(e => {
             console.error(e)
