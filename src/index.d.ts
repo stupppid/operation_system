@@ -7,4 +7,3 @@ export declare const state: {
 }
 export declare const fileController: FileController
 export declare const accountController: AccountController
-export declare const initialize: ()=> Promise<void>

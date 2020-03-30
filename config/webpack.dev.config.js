@@ -5,7 +5,7 @@ const TypedocWebpackPlugin = require('typedoc-webpack-plugin')
 module.exports = {
     mode: 'production',
     context: path.resolve(__dirname, '../'),
-    entry: { index: './src/index.js', console: './src/core/view/console/index.js'},
+    entry: { index: './src/index.js'},
     output: {
         path: path.resolve(__dirname, '../dist'),
         filename: "[name].js",
