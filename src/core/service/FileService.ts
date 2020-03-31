@@ -1,4 +1,4 @@
-import {RtFile, RT_FILE_TYPE, MAX_FILE_LEVEL} from "../model/File";
+import {RtFile} from "../model/File";
 import {instance} from "../annotation";
 import Dexie from "dexie";
 import { RtDB } from "./RtDB";
@@ -59,7 +59,7 @@ export default class FileService {
         return db.transaction('rw', [db.files],  () => {
             let arr = []
             files.forEach(r => {
-                arr.push(action(this.getSubFileByPath(r, MAX_FILE_LEVEL), forever), action(this.files.where('absolutePath').equals(r),forever))
+                arr.push(action(this.getSubFileByPath(r, RtFile.MAX_FILE_LEVEL), forever), action(this.files.where('absolutePath').equals(r),forever))
             })
             return Dexie.Promise.all(arr)
         })

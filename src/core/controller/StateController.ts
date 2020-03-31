@@ -1,5 +1,3 @@
-import FileService from "../service/FileService";
-import {RT_FILE_TYPE, RtFile} from "../model/File";
 import {instance} from "../annotation";
 import Dexie from "dexie";
 import StateService from "../service/StateService";

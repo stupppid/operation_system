@@ -8,8 +8,6 @@ export enum RT_FILE_TYPE {
     RUNNABLE,
 }
 
-export const MAX_FILE_LEVEL = 100
-
 class RtFilePermission {
     accountId?: number
     groupId?: number
@@ -64,6 +62,8 @@ export class RtFile {
     owner: string
     group: string
 
+    static readonly MAX_FILE_LEVEL = 100
+
     static readonly READONLY_ATTR = [
         'level', 'type', 'createTime', 'createBy', 'updateTime', 'updateBy', 'permissionAccounts'
     ]
@@ -89,8 +89,8 @@ export class RtFile {
         } else {
             this.level = params.absolutePath.split('/').length
         }
-        if(this.level > MAX_FILE_LEVEL) {
-            throw new Error(`path deep cannot be above ${MAX_FILE_LEVEL}`)
+        if(this.level > RtFile.MAX_FILE_LEVEL) {
+            throw new Error(`path deep cannot be above ${RtFile.MAX_FILE_LEVEL}`)
         }
         this.content = params.content || ''
         this.type = params.type || RT_FILE_TYPE.FILE

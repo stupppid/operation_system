@@ -1,5 +1,5 @@
 import FileService from "../service/FileService";
-import {IParam as IFile, RT_FILE_TYPE, RtFile} from "../model/File";
+import {IParam as IFile, RtFile} from "../model/File";
 import {instance} from "../annotation";
 import Dexie from "dexie";
 

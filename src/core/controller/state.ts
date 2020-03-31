@@ -19,7 +19,7 @@ function getCurrentAccountId() {
     return this.getItem('$CURRENT_ACCOUNT.id',STORE_TYPE.SESSION)
 }
 
-const state = {
+export const state = {
     setItem: async function (stateKey: string, stateValue: any, type: STORE_TYPE = STORE_TYPE.DATABASE, current: boolean = false): Promise<void> {
         switch (type) {
             case STORE_TYPE.DATABASE:
