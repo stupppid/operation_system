@@ -1,4 +1,4 @@
-import * as md5 from 'md5'
+import md5 = require("sha256");
 
 export enum ACCOUNT_TYPE {
     ROOT,

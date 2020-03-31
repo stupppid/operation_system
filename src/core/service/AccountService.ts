@@ -2,7 +2,7 @@ import {instance} from "../annotation";
 import {RtDB} from "./RtDB";
 import {ACCOUNT_TYPE, RtAccount} from "../model/Account";
 import Dexie from "dexie";
-import * as md5 from 'md5'
+import md5 = require("sha256");
 
 const dfs = []
 dfs[ACCOUNT_TYPE.ACCOUNT] = {}

@@ -1,6 +1,3 @@
-import * as path from "path";
-import {IParmas} from "../../util/store";
-
 export enum RT_FILE_TYPE {
     FILE,
     FOLDER,
