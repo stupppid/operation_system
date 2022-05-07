@@ -15,4 +15,4 @@ it's just a simple system, don't be serious  :）
 
 
 ## 示例
-[ratta-console](https://stupppid.github.io/dist/#ratta-console)
+[ratta-console](https://stupppid.github.io/dist/zh/#ratta-console)
